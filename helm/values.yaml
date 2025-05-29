@@ -2,7 +2,7 @@ replicaCount: 3
 
 image:
   repository: 696960135893.dkr.ecr.eu-west-1.amazonaws.com/nodejs-postgres-ge-new
-  tag: 'latest'
+  tag: 0c2384f48dc68cf62d0322b686a46c70bb0fded8
   pullPolicy: Always
 
 service:
