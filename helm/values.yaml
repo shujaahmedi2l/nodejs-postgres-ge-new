@@ -1,0 +1,77 @@
+replicaCount: 3
+
+image:
+  repository: 696960135893.dkr.ecr.eu-west-1.amazonaws.com/nodejs-postgres-ge-new
+  tag: 'latest'
+  pullPolicy: Always
+
+service:
+  type: ClusterIP
+  port: 8080
+
+serviceAccount:
+  create: true
+  annotations: {}
+  name: ''
+
+resources:
+  limits:
+    cpu: '100m'
+  requests:
+    cpu: '250m'
+
+tolerations:
+  - key: dedicated
+    value: apps
+    operator: Equal
+    effect: NoSchedule
+
+autoscaling:
+  enabled: true
+  minReplicas: 3
+  maxReplicas: 6
+  targetCPUUtilizationPercentage: 60
+
+alb:
+  enabled: true
+  host: nodejs-postgres-ge-new
+
+ingress:
+  enabled: false
+  className: 'nginx'
+  annotations:
+    cert-manager.io/issuer: 'letsencrypt-prod'
+
+  hosts:
+    - host: "nodejs-postgres-ge-new.onexidp.com"
+      paths:
+        - path: '/'
+          pathType: Prefix
+
+  tls:
+    - hosts:
+        - "nodejs-postgres-ge-new.onexidp.com"
+      secretName: 'tls-secret'
+
+letsencrypt:
+  enabled: true
+  email: 'aram@ideatolife.me'
+db:
+  enabled: true
+livenessProbe:
+  httpGet:
+    path: /
+    port: 8080
+  initialDelaySeconds: 60
+  periodSeconds: 10
+  failureThreshold: 3
+  timeoutSeconds: 3
+
+readinessProbe:
+  httpGet:
+    path: /
+    port: 8080
+  initialDelaySeconds: 60
+  periodSeconds: 10
+  failureThreshold: 3
+  timeoutSeconds: 3

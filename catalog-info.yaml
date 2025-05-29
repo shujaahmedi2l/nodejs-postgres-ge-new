@@ -1,0 +1,17 @@
+apiVersion: backstage.io/v1alpha1
+kind: Component
+metadata:
+  name: "nodejs-postgres-ge-new"
+  description: "new repo for GE"
+  annotations:
+    github.com/project-slug: "shujaahmedi2l/nodejs-postgres-ge-new"
+    argocd/app-name: "nodejs-postgres-ge-new"
+    backstage.io/techdocs-ref: dir:.
+  links:
+    - url: https://nodejs-postgres-ge-new.onexidp.com
+      title: Web Application
+      icon: LaunchIcon
+spec:
+  type: service
+  owner: guests
+  lifecycle: experimental
